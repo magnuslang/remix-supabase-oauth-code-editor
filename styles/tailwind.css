@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-white text-slate-500 fill-current text-sm;
+}
+
+.btn {
+  @apply font-semibold py-2 px-4 rounded-md;
+}
+.btn-primary {
+  @apply bg-indigo-500 text-white;
+}
+.btn-primary:hover {
+  @apply bg-indigo-700;
+}
+
+span.icon {
+  @apply inline-flex items-center justify-center p-2 bg-indigo-500 rounded-md shadow-lg;
+}
+span.icon svg {
+  @apply h-5 w-5 text-white;
+}
+
+input[type='file'] {
+  @apply file:mr-4 file:py-2 file:px-4
+    file:rounded-md file:border-0
+    file:text-sm file:font-semibold
+    file:bg-violet-50 file:text-indigo-500
+    hover:file:bg-violet-100;
+}
