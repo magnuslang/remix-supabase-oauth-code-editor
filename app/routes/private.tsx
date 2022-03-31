@@ -30,8 +30,6 @@ export const loader: LoaderFunction = async ({ request }) => {
     failureRedirect: '/login',
   });
 
-  //   console.log(session);
-
   return json<LoaderData>({ email: session.user?.email });
 };
 

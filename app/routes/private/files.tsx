@@ -1,30 +1,16 @@
-import { Link, LoaderFunction, Outlet } from 'remix';
-import { Form, json, useLoaderData } from 'remix';
-import { uploadFileAction } from '~/storage/files';
-import { supabaseClient } from '~/supabase.server';
-import { oAuthStrategy, sessionStorage } from '~/auth.server';
-import { SupabaseStrategy } from 'remix-auth-supabase';
+import { Link, LoaderFunction, Outlet, useActionData } from 'remix';
+import { Form, useLoaderData } from 'remix';
+import { fileListLoader, uploadFileAction } from '~/storage/files';
+import { FileObject } from '@supabase/storage-js';
 
-export const loader: LoaderFunction = async ({ request }) => {
-  const oAuthSession = await oAuthStrategy.checkSession(request, {
-    failureRedirect: '/login',
-  });
+export const loader = fileListLoader;
 
-  supabaseClient.auth.setAuth(oAuthSession.access_token);
-
-  const { data, error } = await supabaseClient.storage
-    .from('files')
-    .list(oAuthSession.user?.id);
-
-  return { data, error };
-};
+export const action = uploadFileAction;
 
 type Files = {
   data: FileObject[] | null;
   error: Error | null;
 };
-
-export const action = uploadFileAction;
 
 export default function Files() {
   const files = useLoaderData<Files>();

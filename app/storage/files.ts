@@ -4,14 +4,13 @@ import {
   UploadHandler,
 } from 'remix';
 import invariant from 'tiny-invariant';
+import { withSupabase } from '~/auth.helpers.server';
 import { authenticator, sessionStorage } from '~/auth.server';
 import { supabaseAdmin } from '~/supabase.server';
 
 export const uploadFileAction: ActionFunction = async ({ request }) => {
   try {
     const uploadHandler: UploadHandler = async ({ name, stream, filename }) => {
-      console.log('in uploadHandler');
-
       const session = await authenticator.isAuthenticated(request);
 
       if (!session) {
@@ -29,14 +28,11 @@ export const uploadFileAction: ActionFunction = async ({ request }) => {
       for await (const chunk of stream) chunks.push(chunk);
       const buffer = Buffer.concat(chunks);
 
-      console.log('calling supabase w file');
-
       try {
         const { data, error } = await supabaseAdmin.storage
           .from('files')
           .upload(fileWithFolder, buffer);
 
-        console.log('result ', data, error);
         if (error) {
           throw error;
         }
@@ -52,7 +48,6 @@ export const uploadFileAction: ActionFunction = async ({ request }) => {
     const form = await unstable_parseMultipartFormData(request, uploadHandler);
 
     const file = form.get('file');
-    console.log(typeof file);
 
     invariant(typeof file === 'string', 'No file retuned');
 
@@ -63,3 +58,44 @@ export const uploadFileAction: ActionFunction = async ({ request }) => {
     return { error: e };
   }
 };
+
+export const fileListLoader = withSupabase(
+  async ({ supabaseClient, userId }) => {
+    console.log('DASD');
+
+    console.log(userId);
+    const { data, error } = await supabaseClient.storage
+      .from('files')
+      .list(userId);
+
+    return { data, error };
+  }
+);
+
+export const fileLoader = withSupabase(
+  async ({ supabaseClient, userId, params }) => {
+    if (!params.file) {
+      return { error: 'No file.' };
+    }
+
+    try {
+      console.log(userId);
+
+      const path = `${userId}/${params.file}`;
+
+      const { data, error } = await supabaseClient.storage
+        .from('files')
+        .download(path);
+
+      if (error) {
+        throw error;
+      }
+
+      return { text: await data?.text(), error };
+    } catch (err) {
+      console.log(err);
+
+      throw 'Could not display file.';
+    }
+  }
+);

@@ -19,5 +19,9 @@ export const loader: LoaderFunction = async ({ request }) => {
 export default function Screen() {
   const data = useLoaderData<LoaderData>();
 
-  return <div className="flex">At index.ts</div>;
+  return (
+    <div className="flex">
+      Create / Upload a file and click it to start editing.
+    </div>
+  );
 }

@@ -25,7 +25,7 @@ export const supabaseAdmin = createClient(
 export const supabaseClient = createClient(
   process.env.SUPABASE_URL,
   process.env.PUBLIC_SUPABASE_ANON_KEY,
-  { autoRefreshToken: false, persistSession: false }
+  { autoRefreshToken: false, persistSession: true }
 );
 
 export { Session };
