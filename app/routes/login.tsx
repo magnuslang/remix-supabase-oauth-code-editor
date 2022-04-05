@@ -8,7 +8,7 @@ export const links: LinksFunction = () => {
   return [
     {
       rel: 'stylesheet',
-      href: 'https://fonts.googleapis.com/css?family=Roboto',
+      href: 'https://fonts.googleapis.com/css?family=Roboto:500',
     },
     { rel: 'stylesheet', href: styles },
   ];
@@ -39,20 +39,21 @@ export default function Login() {
 
   return (
     <>
-      {error && <div>{error.message}</div>}
+      {/* {error && <div>{error.message}</div>} */}
 
       <div className="flex flex-col w-screen h-screen items-center pt-10">
         <div>Welcome to</div>
         <div className="text-3xl m-6">Analysseus</div>
-        <div>Sign in with:</div>
-        <button
-          id="googleBtn"
-          className="m-6"
-          onClick={() => signInWithGoogle()}
-        >
-          <span className="google-icon"></span>
-          <span className="google-buttonText">Google</span>
-        </button>
+        <div>Sign in:</div>
+        <div className="google-btn m-6" onClick={() => signInWithGoogle()}>
+          <div className="google-icon-wrapper">
+            <img
+              className="google-icon"
+              src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"
+            />
+          </div>
+          <span className="google-btn-text">Sign in with Google</span>
+        </div>
       </div>
     </>
   );

@@ -2,7 +2,7 @@ import { Link } from 'remix';
 
 export default function Index() {
   return (
-    <>
+    <div className="space-y-6 space-x-6">
       <h1>Index page</h1>
       <ul>
         <li>
@@ -12,6 +12,6 @@ export default function Index() {
           <Link to="/login">Go to login</Link>
         </li>
       </ul>
-    </>
+    </div>
   );
 }
