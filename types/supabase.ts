@@ -18,7 +18,7 @@ export interface paths {
         query: {
           id?: parameters["rowFilter.apps.id"];
           created_at?: parameters["rowFilter.apps.created_at"];
-          app?: parameters["rowFilter.apps.app"];
+          app_id?: parameters["rowFilter.apps.app_id"];
           name?: parameters["rowFilter.apps.name"];
           user_id?: parameters["rowFilter.apps.user_id"];
           /** Filtering Columns */
@@ -73,7 +73,7 @@ export interface paths {
         query: {
           id?: parameters["rowFilter.apps.id"];
           created_at?: parameters["rowFilter.apps.created_at"];
-          app?: parameters["rowFilter.apps.app"];
+          app_id?: parameters["rowFilter.apps.app_id"];
           name?: parameters["rowFilter.apps.name"];
           user_id?: parameters["rowFilter.apps.user_id"];
         };
@@ -92,7 +92,7 @@ export interface paths {
         query: {
           id?: parameters["rowFilter.apps.id"];
           created_at?: parameters["rowFilter.apps.created_at"];
-          app?: parameters["rowFilter.apps.app"];
+          app_id?: parameters["rowFilter.apps.app_id"];
           name?: parameters["rowFilter.apps.name"];
           user_id?: parameters["rowFilter.apps.user_id"];
         };
@@ -230,7 +230,7 @@ export interface definitions {
      * Format: uuid
      * @default extensions.uuid_generate_v4()
      */
-    app: string;
+    app_id: string;
     /** Format: character varying */
     name: string;
     /** Format: uuid */
@@ -294,7 +294,7 @@ export interface parameters {
   /** Format: timestamp with time zone */
   "rowFilter.apps.created_at": string;
   /** Format: uuid */
-  "rowFilter.apps.app": string;
+  "rowFilter.apps.app_id": string;
   /** Format: character varying */
   "rowFilter.apps.name": string;
   /** Format: uuid */
