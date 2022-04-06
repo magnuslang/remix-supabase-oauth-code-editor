@@ -1,7 +1,7 @@
 import type { LinksFunction, LoaderFunction } from 'remix';
 import { json, useLoaderData } from 'remix';
 import { authenticator, oAuthStrategy, sessionStorage } from '~/auth.server';
-import { signInWithGoogle } from '~/supabase.client';
+import { signInWithGoogle } from '~/supabase';
 import styles from '~/styles/signin.css';
 
 export const links: LinksFunction = () => {
@@ -20,7 +20,7 @@ export type LoaderData = {
 
 export const loader: LoaderFunction = async ({ request }) => {
   await oAuthStrategy.checkSession(request, {
-    successRedirect: '/private/files',
+    successRedirect: '/editor',
   });
 
   const session = await sessionStorage.getSession(

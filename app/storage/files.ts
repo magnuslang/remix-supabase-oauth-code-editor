@@ -4,9 +4,9 @@ import {
   UploadHandler,
 } from 'remix';
 import invariant from 'tiny-invariant';
-import { withSupabase } from '~/auth.helpers.server';
-import { authenticator, sessionStorage } from '~/auth.server';
-import { supabaseAdmin } from '~/supabase.server';
+import { withSupabase } from '~/auth.helpers';
+import { authenticator } from '~/auth.server';
+import { supabaseAdmin } from '~/supabase.admin.server';
 
 export const uploadFileAction: ActionFunction = async ({ request }) => {
   try {
@@ -59,29 +59,22 @@ export const uploadFileAction: ActionFunction = async ({ request }) => {
   }
 };
 
-export const fileListLoader = withSupabase(
-  async ({ supabaseClient, userId }) => {
-    console.log('DASD');
+export const fileListLoader = withSupabase(async ({ supabaseClient, user }) => {
+  const { data, error } = await supabaseClient.storage
+    .from('files')
+    .list(user?.id);
 
-    console.log(userId);
-    const { data, error } = await supabaseClient.storage
-      .from('files')
-      .list(userId);
-
-    return { data, error };
-  }
-);
+  return { data, error };
+});
 
 export const fileLoader = withSupabase(
-  async ({ supabaseClient, userId, params }) => {
+  async ({ supabaseClient, user, params }) => {
     if (!params.file) {
       return { error: 'No file.' };
     }
 
     try {
-      console.log(userId);
-
-      const path = `${userId}/${params.file}`;
+      const path = `${user?.id}/${params.file}`;
 
       const { data, error } = await supabaseClient.storage
         .from('files')

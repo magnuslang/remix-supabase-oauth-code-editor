@@ -12,6 +12,105 @@ export interface paths {
       };
     };
   };
+  "/apps": {
+    get: {
+      parameters: {
+        query: {
+          id?: parameters["rowFilter.apps.id"];
+          created_at?: parameters["rowFilter.apps.created_at"];
+          app?: parameters["rowFilter.apps.app"];
+          name?: parameters["rowFilter.apps.name"];
+          user_id?: parameters["rowFilter.apps.user_id"];
+          /** Filtering Columns */
+          select?: parameters["select"];
+          /** Ordering */
+          order?: parameters["order"];
+          /** Limiting and Pagination */
+          offset?: parameters["offset"];
+          /** Limiting and Pagination */
+          limit?: parameters["limit"];
+        };
+        header: {
+          /** Limiting and Pagination */
+          Range?: parameters["range"];
+          /** Limiting and Pagination */
+          "Range-Unit"?: parameters["rangeUnit"];
+          /** Preference */
+          Prefer?: parameters["preferCount"];
+        };
+      };
+      responses: {
+        /** OK */
+        200: {
+          schema: definitions["apps"][];
+        };
+        /** Partial Content */
+        206: unknown;
+      };
+    };
+    post: {
+      parameters: {
+        body: {
+          /** apps */
+          apps?: definitions["apps"];
+        };
+        query: {
+          /** Filtering Columns */
+          select?: parameters["select"];
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferReturn"];
+        };
+      };
+      responses: {
+        /** Created */
+        201: unknown;
+      };
+    };
+    delete: {
+      parameters: {
+        query: {
+          id?: parameters["rowFilter.apps.id"];
+          created_at?: parameters["rowFilter.apps.created_at"];
+          app?: parameters["rowFilter.apps.app"];
+          name?: parameters["rowFilter.apps.name"];
+          user_id?: parameters["rowFilter.apps.user_id"];
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferReturn"];
+        };
+      };
+      responses: {
+        /** No Content */
+        204: never;
+      };
+    };
+    patch: {
+      parameters: {
+        query: {
+          id?: parameters["rowFilter.apps.id"];
+          created_at?: parameters["rowFilter.apps.created_at"];
+          app?: parameters["rowFilter.apps.app"];
+          name?: parameters["rowFilter.apps.name"];
+          user_id?: parameters["rowFilter.apps.user_id"];
+        };
+        body: {
+          /** apps */
+          apps?: definitions["apps"];
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferReturn"];
+        };
+      };
+      responses: {
+        /** No Content */
+        204: never;
+      };
+    };
+  };
   "/profiles": {
     get: {
       parameters: {
@@ -114,6 +213,29 @@ export interface paths {
 }
 
 export interface definitions {
+  /** @description Apps per user */
+  apps: {
+    /**
+     * Format: bigint
+     * @description Note:
+     * This is a Primary Key.<pk/>
+     */
+    id: number;
+    /**
+     * Format: timestamp with time zone
+     * @default now()
+     */
+    created_at: string;
+    /**
+     * Format: uuid
+     * @default extensions.uuid_generate_v4()
+     */
+    app: string;
+    /** Format: character varying */
+    name: string;
+    /** Format: uuid */
+    user_id: string;
+  };
   profiles: {
     /**
      * Format: uuid
@@ -165,6 +287,18 @@ export interface parameters {
   offset: string;
   /** @description Limiting and Pagination */
   limit: string;
+  /** @description apps */
+  "body.apps": definitions["apps"];
+  /** Format: bigint */
+  "rowFilter.apps.id": string;
+  /** Format: timestamp with time zone */
+  "rowFilter.apps.created_at": string;
+  /** Format: uuid */
+  "rowFilter.apps.app": string;
+  /** Format: character varying */
+  "rowFilter.apps.name": string;
+  /** Format: uuid */
+  "rowFilter.apps.user_id": string;
   /** @description profiles */
   "body.profiles": definitions["profiles"];
   /** Format: uuid */
