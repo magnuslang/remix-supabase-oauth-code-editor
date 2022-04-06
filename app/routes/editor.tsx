@@ -7,8 +7,6 @@ import TopBar from '~/components/top-bar';
 
 export const loader: LoaderFunction = withSupabase(
   async ({ user, params, supabaseClient }) => {
-    console.log('GETTING APP ID');
-
     if (params.appId) {
       const { data, error, status } = await supabaseClient
         .from<definitions['apps']>('apps')

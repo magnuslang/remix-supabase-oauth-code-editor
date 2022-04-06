@@ -73,8 +73,6 @@ export const fileListLoader = withSupabase(
       .from('files')
       .list(params.appId);
 
-    console.log('DD', params.appId, data, error);
-
     return { data, error };
   }
 );

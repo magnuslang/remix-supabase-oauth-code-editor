@@ -4,8 +4,6 @@ import { Apps } from '~/routes/editor/index';
 type AppsListAttrs = { apps: Apps[] | null };
 
 export default function AppsList({ apps }: AppsListAttrs) {
-  console.log(apps);
-
   return (
     <div className="flex w-full h-full align-middle justify-center ">
       <div className="flex flex-col border border-1 w-64">
