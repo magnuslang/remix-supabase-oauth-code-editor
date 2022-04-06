@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import type { ActionFunction } from 'remix';
 import { useSubmit } from 'remix';
 import { authenticator } from '~/auth.server';
-import { supabaseClient } from '~/supabase.client';
+import { supabaseClient } from '~/supabase';
 
 export function mapSession(authSession: any) {
   return {
@@ -15,7 +15,7 @@ export function mapSession(authSession: any) {
 
 export const action: ActionFunction = async ({ request }) => {
   await authenticator.authenticate('sb-oauth', request, {
-    successRedirect: '/private/files',
+    successRedirect: '/editor',
     failureRedirect: '/login',
   });
 };
@@ -29,17 +29,6 @@ export default function OAuth() {
         if (event === 'SIGNED_IN') {
           const formData = new FormData();
           formData.append('session', JSON.stringify(session));
-
-          console.log(
-            'LOGGED IN! submitting:',
-            JSON.stringify(session, null, 2)
-          );
-
-          const userSession = mapSession(session!);
-
-          for (const [key, value] of Object.entries(userSession)) {
-            formData.append(key, value);
-          }
 
           submit(formData, { method: 'post' });
         }

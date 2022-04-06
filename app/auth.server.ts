@@ -1,8 +1,8 @@
 import { createCookieSessionStorage } from 'remix';
 import { Authenticator, AuthorizationError } from 'remix-auth';
 import { SupabaseStrategy } from 'remix-auth-supabase';
-import { supabaseAdmin } from '~/supabase.server';
-import type { Session } from '~/supabase.server';
+import { supabaseClient } from '~/supabase';
+import type { Session } from '~/supabase';
 
 export const sessionStorage = createCookieSessionStorage({
   cookie: {
@@ -17,7 +17,7 @@ export const sessionStorage = createCookieSessionStorage({
 
 export const oAuthStrategy = new SupabaseStrategy(
   {
-    supabaseClient: supabaseAdmin,
+    supabaseClient,
     sessionStorage,
     sessionKey: 'sb:session',
     sessionErrorKey: 'sb:error',
