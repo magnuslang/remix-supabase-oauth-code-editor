@@ -8,10 +8,15 @@ export default function Index() {
         <TopBar></TopBar>
       </nav>
       <main>
-        <div>
-          <h1>Welcome to Analysseus</h1>
-          This is an awesome tool, but login might happen directly from our site
-          with the fancy layout.
+        <div className="flex flex-col  w-full items-center">
+          <div className="p-6 space-y-6 max-w-xl">
+            <div className="text-center text-lg">Welcome to Analysseus</div>
+            <div className="text-center">
+              Simply and swiftly create interactive graphs and dashboards from
+              your data. Share as an app instantly. Free. No account required,
+              just sign in to keed your data safe.
+            </div>
+          </div>
         </div>
       </main>
     </>
