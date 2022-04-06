@@ -30,7 +30,7 @@ export default function File() {
             />
           </div>
           <div className="grow">
-            <iframe src="http://www.dn.se" width="100%"></iframe>
+            <iframe src="http://www.dn.se" width="100%" height="100%"></iframe>
           </div>
         </div>
       ) : (

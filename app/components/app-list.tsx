@@ -7,12 +7,12 @@ export default function AppsList({ apps }: AppsListAttrs) {
   console.log(apps);
 
   return (
-    <div className="flex w-full h-full align-middle justify-center p-4">
+    <div className="flex w-full h-full align-middle justify-center ">
       <div className="flex flex-col border border-1 w-64">
         <div className="p-3 relative">
           <div className="text-lg text-center">Projects</div>
           <Link to="/editor/app/new">
-            <button className="btn btn-primary absolute top-2 right-0">
+            <button className="btn btn-primary absolute top-2 right-2">
               +
             </button>
           </Link>

@@ -28,9 +28,9 @@ export const action: ActionFunction = withSupabase(
 
 export default function CreateNewApp() {
   return (
-    <Form method="post">
-      <div className="flex w-full h-full align-middle justify-center p-4">
-        <div className="flex flex-col p-2 border-t space-y-2">
+    <div className="flex w-full h-full justify-center p-20">
+      <Form method="post">
+        <div className="flex flex-col space-y-4">
           <div className="text-lg text-center">Create new project</div>
 
           <label className="block">
@@ -46,10 +46,10 @@ export default function CreateNewApp() {
             name="_action"
             value="create-new-app"
           >
-            New app
+            Create new
           </button>
         </div>
-      </div>
-    </Form>
+      </Form>
+    </div>
   );
 }
