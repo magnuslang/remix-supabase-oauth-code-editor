@@ -21,7 +21,7 @@ declare global {
   }
 }
 
-const browser = typeof window !== 'undefined';
+const browser = typeof document !== 'undefined'; // deno supports 'window', so check document instead
 
 const SUPABASE_URL = browser
   ? window.env.SUPABASE_URL
