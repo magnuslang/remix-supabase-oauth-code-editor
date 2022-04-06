@@ -8,16 +8,20 @@ import { withSupabase } from '~/auth.helpers';
 import { authenticator } from '~/auth.server';
 import { supabaseAdmin } from '~/supabase.admin.server';
 
-export const uploadFileAction: ActionFunction = async ({ request }) => {
+export const uploadFileAction: ActionFunction = async ({ request, params }) => {
+  if (!params.appId) {
+    return { error: 'No app id supplied.' };
+  }
+
   try {
     const uploadHandler: UploadHandler = async ({ name, stream, filename }) => {
       const session = await authenticator.isAuthenticated(request);
 
       if (!session) {
-        throw 'No user found.';
+        throw 'User must be logged in to upload.';
       }
 
-      const fileWithFolder = `${session.user?.id}/${filename}`;
+      const fileWithFolder = `${params.appId}/${filename}`;
 
       if (name !== 'file') {
         stream.resume();
@@ -59,36 +63,46 @@ export const uploadFileAction: ActionFunction = async ({ request }) => {
   }
 };
 
-export const fileListLoader = withSupabase(async ({ supabaseClient, user }) => {
-  const { data, error } = await supabaseClient.storage
-    .from('files')
-    .list(user?.id);
-
-  return { data, error };
-});
-
-export const fileLoader = withSupabase(
-  async ({ supabaseClient, user, params }) => {
-    if (!params.file) {
-      return { error: 'No file.' };
+export const fileListLoader = withSupabase(
+  async ({ supabaseClient, params }) => {
+    if (!params.appId) {
+      return { error: 'No app id supplied.' };
     }
 
-    try {
-      const path = `${user?.id}/${params.file}`;
+    const { data, error } = await supabaseClient.storage
+      .from('files')
+      .list(params.appId);
 
-      const { data, error } = await supabaseClient.storage
-        .from('files')
-        .download(path);
+    console.log('DD', params.appId, data, error);
 
-      if (error) {
-        throw error;
-      }
-
-      return { text: await data?.text(), error };
-    } catch (err) {
-      console.log(err);
-
-      throw 'Could not display file.';
-    }
+    return { data, error };
   }
 );
+
+export const fileLoader = withSupabase(async ({ supabaseClient, params }) => {
+  if (!params.file) {
+    return { error: 'No file.' };
+  }
+
+  if (!params.appId) {
+    return { error: 'No app id supplied.' };
+  }
+
+  try {
+    const path = `${params.appId}/${params.file}`;
+
+    const { data, error } = await supabaseClient.storage
+      .from('files')
+      .download(path);
+
+    if (error) {
+      throw error;
+    }
+
+    return { text: await data?.text(), error };
+  } catch (err) {
+    console.log(err);
+
+    throw 'Could not display file.';
+  }
+});

@@ -20,12 +20,19 @@ export default function File() {
   return (
     <>
       {file.text ? (
-        <Editor
-          height="90vh"
-          width="90vw"
-          defaultLanguage="typescript"
-          value={file.text}
-        />
+        <div className="flex flex-row h-full w-full">
+          <div>
+            <Editor
+              height="100%"
+              width="40vw"
+              defaultLanguage="typescript"
+              value={file.text}
+            />
+          </div>
+          <div className="grow">
+            <iframe src="http://www.dn.se" width="100%"></iframe>
+          </div>
+        </div>
       ) : (
         <div className="p-6">
           Create / Upload a file and click it to start editing.
