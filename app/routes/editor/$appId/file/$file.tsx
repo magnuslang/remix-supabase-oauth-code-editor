@@ -1,7 +1,8 @@
-import { LoaderFunction, useActionData, useLoaderData } from 'remix';
+import { useActionData, useLoaderData } from '@remix-run/react';
 
 import Editor from '@monaco-editor/react';
 import { fileLoader } from '~/storage/files';
+import { LoaderFunction } from '@remix-run/node';
 
 type FileState = {
   text?: string;

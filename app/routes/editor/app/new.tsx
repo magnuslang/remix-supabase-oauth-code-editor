@@ -1,30 +1,31 @@
-import { ActionFunction, Form } from 'remix';
+import { ActionFunction } from '@remix-run/node';
+import { Form } from '@remix-run/react';
 import { definitions } from 'types/supabase';
-import { withSupabase } from '~/auth.helpers';
+import { verifySession } from '~/auth.helpers.server';
 
-export const action: ActionFunction = withSupabase(
-  async ({ request, supabaseClient, user }) => {
-    const formData = await request.formData();
+export const action: ActionFunction = async ({ request }) => {
+  const { user, supabaseClient } = await verifySession(request);
 
-    const name = formData.get('name')?.toString();
+  const formData = await request.formData();
 
-    if (!name) {
-      throw 'Need to enter an app name.';
-    }
+  const name = formData.get('name')?.toString();
 
-    try {
-      const app = await supabaseClient
-        .from<definitions['apps']>('apps')
-        .insert({ name, user_id: user?.id });
-
-      return app;
-    } catch (error) {
-      console.log(error);
-
-      throw error;
-    }
+  if (!name) {
+    throw 'Need to enter an app name.';
   }
-);
+
+  try {
+    const app = await supabaseClient
+      .from<definitions['apps']>('apps')
+      .insert({ name, user_id: user?.id });
+
+    return app;
+  } catch (error) {
+    console.log(error);
+
+    throw error;
+  }
+};
 
 export default function CreateNewApp() {
   return (

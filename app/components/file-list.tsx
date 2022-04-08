@@ -1,4 +1,4 @@
-import { NavLink, useParams } from 'remix';
+import { NavLink, useParams } from '@remix-run/react';
 import { Files } from '~/routes/editor/$appId';
 
 export default function FileList({ data }: Files) {

@@ -1,8 +1,9 @@
-import type { LinksFunction, LoaderFunction } from 'remix';
-import { json, useLoaderData } from 'remix';
+import type { LinksFunction, LoaderFunction } from '@remix-run/node';
+import { json } from '@remix-run/node';
 import { authenticator, oAuthStrategy, sessionStorage } from '~/auth.server';
 import { signInWithGoogle } from '~/supabase';
 import styles from '~/styles/signin.css';
+import { useLoaderData } from '@remix-run/react';
 
 export const links: LinksFunction = () => {
   return [

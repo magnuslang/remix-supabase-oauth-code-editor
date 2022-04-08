@@ -1,4 +1,4 @@
-import { Link } from 'remix';
+import { Link } from '@remix-run/react';
 import TopBar from '~/components/top-bar';
 
 export default function Index() {

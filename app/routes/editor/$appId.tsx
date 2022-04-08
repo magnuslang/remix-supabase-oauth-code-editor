@@ -1,5 +1,5 @@
-import { Link, LoaderFunction, Outlet, useActionData } from 'remix';
-import { Form, useLoaderData } from 'remix';
+import { Outlet } from '@remix-run/react';
+import { Form, useLoaderData } from '@remix-run/react';
 import { fileListLoader, uploadFileAction } from '~/storage/files';
 import { FileObject } from '@supabase/storage-js';
 import FileList from '~/components/file-list';

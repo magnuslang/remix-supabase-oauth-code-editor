@@ -1,10 +1,11 @@
 import {
   ActionFunction,
+  LoaderFunction,
   unstable_parseMultipartFormData,
   UploadHandler,
-} from 'remix';
+} from '@remix-run/node';
 import invariant from 'tiny-invariant';
-import { withSupabase } from '~/auth.helpers';
+import { verifySession } from '~/auth.helpers.server';
 import { authenticator } from '~/auth.server';
 import { supabaseAdmin } from '~/supabase.admin.server';
 
@@ -63,21 +64,23 @@ export const uploadFileAction: ActionFunction = async ({ request, params }) => {
   }
 };
 
-export const fileListLoader = withSupabase(
-  async ({ supabaseClient, params }) => {
-    if (!params.appId) {
-      return { error: 'No app id supplied.' };
-    }
+export const fileListLoader: LoaderFunction = async ({ params, request }) => {
+  const { supabaseClient } = await verifySession(request);
 
-    const { data, error } = await supabaseClient.storage
-      .from('files')
-      .list(params.appId);
-
-    return { data, error };
+  if (!params.appId) {
+    return { error: 'No app id supplied.' };
   }
-);
 
-export const fileLoader = withSupabase(async ({ supabaseClient, params }) => {
+  const { data, error } = await supabaseClient.storage
+    .from('files')
+    .list(params.appId);
+
+  return { data, error };
+};
+
+export const fileLoader: LoaderFunction = async ({ request, params }) => {
+  const { supabaseClient } = await verifySession(request);
+
   if (!params.file) {
     return { error: 'No file.' };
   }
@@ -103,4 +106,4 @@ export const fileLoader = withSupabase(async ({ supabaseClient, params }) => {
 
     throw 'Could not display file.';
   }
-});
+};

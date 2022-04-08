@@ -1,4 +1,18 @@
-import type { LinksFunction, LoaderFunction } from 'remix';
+// import type { LinksFunction, LoaderFunction } from '@remix-run/react';
+// import {
+//   Links,
+//   LiveReload,
+//   Meta,
+//   Outlet,
+//   Scripts,
+//   ScrollRestoration,
+//   useLoaderData,
+// } from '@remix-run/react';
+import type {
+  LinksFunction,
+  LoaderFunction,
+  MetaFunction,
+} from '@remix-run/node';
 import {
   Links,
   LiveReload,
@@ -7,7 +21,8 @@ import {
   Scripts,
   ScrollRestoration,
   useLoaderData,
-} from 'remix';
+} from '@remix-run/react';
+
 import styles from './tailwind.css';
 
 export const loader: LoaderFunction = () => {

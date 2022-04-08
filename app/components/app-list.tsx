@@ -1,4 +1,4 @@
-import { Link } from 'remix';
+import { Link } from '@remix-run/react';
 import { Apps } from '~/routes/editor/index';
 
 type AppsListAttrs = { apps: Apps[] | null };

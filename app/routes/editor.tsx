@@ -1,25 +1,26 @@
 import { User } from '@supabase/supabase-js';
-import { LoaderFunction, Outlet } from 'remix';
-import { useLoaderData } from 'remix';
-import { definitions } from 'types/supabase';
-import { withSupabase } from '~/auth.helpers';
+import { Outlet } from '@remix-run/react';
+import { useLoaderData } from '@remix-run/react';
 import TopBar from '~/components/top-bar';
+import { definitions } from 'types/supabase';
+import { LoaderFunction } from '@remix-run/node';
+import { verifySession } from '~/auth.helpers.server';
 
-export const loader: LoaderFunction = withSupabase(
-  async ({ user, params, supabaseClient }) => {
-    if (params.appId) {
-      const { data, error, status } = await supabaseClient
-        .from<definitions['apps']>('apps')
-        .select('name')
-        .eq('app_id', params.appId)
-        .maybeSingle();
+export const loader: LoaderFunction = async ({ params, request }) => {
+  const { user, supabaseClient } = await verifySession(request);
 
-      return { user, appName: data?.name };
-    }
+  if (params.appId) {
+    const { data, error, status } = await supabaseClient
+      .from<definitions['apps']>('apps')
+      .select('name')
+      .eq('app_id', params.appId)
+      .maybeSingle();
 
-    return { user };
+    return { user, appName: data?.name };
   }
-);
+
+  return { user };
+};
 
 export default function Editor() {
   const { user, appName } = useLoaderData<{ user: User; appName?: string }>();
